@@ -1,0 +1,44 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>My Shopping Cart</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>My Shopping Cart</h1>
+    
+    <ul id="products-list">
+      <!-- Ürünler burada listelenir -->
+    </ul>
+
+    <a href="cart.html">Sepetim</a>
+
+    <!-- JavaScript kodları burada yer alacak -->
+    <script src="/script.js"></script>
+    <script>
+      $(document).ready(function() {
+  $(".add-to-cart").click(function() {
+    var product = {
+      title: $(this).siblings(".product-title").text(),
+      price: $(this).siblings(".product-price").text()
+    };
+
+    var cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  });
+});
+
+    </script>
+  </body>
+</html>

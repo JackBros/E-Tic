@@ -1,0 +1,64 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Shopping Cart</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>My Shopping Cart - Sepetim</h1>
+    
+    <ul id="cart-list">
+      <!-- Sepetteki ürünler burada listelenir -->
+    </ul>
+
+    <p>Toplam Fiyat: <span id="total-price">0.00</span> TL</p>
+
+    <a href="index.html">Ürünleri Listele</a>
+
+    <!-- JavaScript kodları burada yer alacak -->
+    <script src="/script.js"></script>
+    <script>
+  $(document).ready(function() {
+  var cart = JSON.parse(localStorage.getItem("cart")) || [];
+  var total = 0;
+  var cartList = $("#cart-list");
+  var totalPrice = $("#total-price");
+
+  $.each(cart, function(index, item) {
+    var cartItem = $("<li>").addClass("cart-item");
+    var itemTitle = $("<h3>").text(item.title);
+    var itemPrice = $("<p>").text(item.price);
+    var removeButton = $("<button>").addClass("remove-item").text("Sil");
+
+    cartItem.append(itemTitle, itemPrice, removeButton);
+    cartList.append(cartItem);
+
+    total += parseFloat(item.price);
+  });
+
+  totalPrice.text(total.toFixed(2));
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  $(".remove-item").click(function() {
+    var item = $(this).closest(".cart-item");
+    var price = item.find("p").text();
+    var index = cart.findIndex(function(cartItem) {
+      return cartItem.price === price;
+    });
+
+    cart.splice(index, 1);
+    item.remove();
+
+    total -= parseFloat(price);
+    totalPrice.text(total.toFixed(2));
+    
+    localStorage.setItem("cart", JSON.stringify(cart));
+  });
+});
+
+    </script>
+  </body>
+</html>
