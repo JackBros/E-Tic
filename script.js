@@ -1,4 +1,57 @@
 $(document).ready(function() {
+  $(".add-to-cart").click(function() {
+    var product = {
+      title: $(this).siblings(".product-title").text(),
+      price: $(this).siblings(".product-price").text(),
+      image: $(this).siblings(".product-image").attr("src")
+    };
+
+    var cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+  });
+});
+
+$(document).ready(function() {
+  var cart = JSON.parse(localStorage.getItem("cart")) || [];
+  var total = 0;
+  var cartList = $("#cart-list");
+  var totalPrice = $("#total-price");
+
+  $.each(cart, function(index, item) {
+    var cartItem = $("<li>").addClass("cart-item");
+    var itemTitle = $("<h3>").text(item.title);
+    var itemPrice = $("<p>").text(item.price);
+    var removeButton = $("<button>").addClass("remove-item").text("Sil");
+
+    cartItem.append(itemTitle, itemPrice, removeButton);
+    cartList.append(cartItem);
+
+    total += parseFloat(item.price);
+  });
+
+  totalPrice.text(total.toFixed(2));
+  
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  $(".remove-item").click(function() {
+    var item = $(this).closest(".cart-item");
+    var price = item.find("p").text();
+    var index = cart.findIndex(function(cartItem) {
+      return cartItem.price === price;
+    });
+
+    cart.splice(index, 1);
+    item.remove();
+
+    total -= parseFloat(price);
+    totalPrice.text(total.toFixed(2));
+    
+    localStorage.setItem("cart", JSON.stringify(cart));
+  });
+});
+
+$(document).ready(function() {
   displayProducts();
   addToCart();
 });
@@ -29,7 +82,7 @@ function displayProducts() {
 }
 
 function addToCart() {
-  var cart = [];
+  var cart = JSON.parse(localStorage.getItem("cart")) || [];
   var total = 0;
 
   $(document).on("click", ".add-to-cart", function() {
@@ -37,15 +90,23 @@ function addToCart() {
     var product = $(this).closest(".product");
     var title = product.find("h2").text();
     var price = product.find("p").text();
+    var image = product.find("img").attr("src");
+
+    // Add the product to the cart
+    cart.push({title: title, price: price, image: image});
+
+    // Save the updated cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
 
     // Sepete eklenen ürünü göstermek için bir li öğesi oluşturun
     // Her ürün için bir li öğesi oluşturun ve sepete ekleyin
     var cartItem = $("<li>").addClass("cart-item");
-    var itemTitle = $("<h3>").text(title);
-    var itemPrice = $("<p>").text(price);
+    var itemTitle = $("<h3>").text(item.title);
+    var itemPrice = $("<p>").text(item.price);
+    var itemImage = $("<img>").attr("src", image);
     var removeButton = $("<button>").addClass("remove-item").text("Sil");
-
-    cartItem.append(itemTitle, itemPrice, removeButton);
+    
+    cartItem.append(itemTitle, itemPrice, itemImage, removeButton);
     $("#cart-list").append(cartItem);
 
     // Toplam fiyatı hesapla
