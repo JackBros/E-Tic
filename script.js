@@ -1,18 +1,4 @@
 $(document).ready(function() {
-  $(".add-to-cart").click(function() {
-    var product = {
-      title: $(this).siblings(".product-title").text(),
-      price: $(this).siblings(".product-price").text(),
-      image: $(this).siblings(".product-image").attr("src")
-    };
-
-    var cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(product);
-    localStorage.setItem("cart", JSON.stringify(cart));
-  });
-});
-
-$(document).ready(function() {
   var cart = JSON.parse(localStorage.getItem("cart")) || [];
   var total = 0;
   var cartList = $("#cart-list");
@@ -22,12 +8,33 @@ $(document).ready(function() {
     var cartItem = $("<li>").addClass("cart-item");
     var itemTitle = $("<h3>").text(item.title);
     var itemPrice = $("<p>").text(item.price);
-    var removeButton = $("<button>").addClass("remove-item").text("Sil");
+    var itemImage = $("<img>").attr("src", item.image);
+    var itemQuantity = $("<span>").addClass("quantity").text(" x " + item.quantity);
+    var removeButton = $("<button>").addClass("remove-item").text("Azalt");
+    var increaseButton = $("<button>").addClass("increase-item").text("Artır");
+    var removeAllButton = $("<button>").addClass("remove-all-items").text("Hepsini Sil");
 
-    cartItem.append(itemTitle, itemPrice, removeButton);
+    // When the increase button is clicked, increase the quantity by 1
+    increaseButton.click(function() {
+      item.quantity += 1;
+      itemQuantity.text(" x " + item.quantity);
+      total += parseFloat(item.price);
+      totalPrice.text(total.toFixed(2));
+      localStorage.setItem("cart", JSON.stringify(cart));
+    });
+    
+    removeAllButton.click(function() {
+      total -= parseFloat(item.price) * item.quantity;
+      cart.splice(index, 1);
+      cartItem.remove();
+      totalPrice.text(total.toFixed(2));
+      localStorage.setItem("cart", JSON.stringify(cart));
+    });
+    
+    cartItem.append(itemImage, itemTitle, itemQuantity, itemPrice, removeButton, increaseButton, removeAllButton);
     cartList.append(cartItem);
-
-    total += parseFloat(item.price);
+    
+    total += parseFloat(item.price) * item.quantity;
   });
 
   totalPrice.text(total.toFixed(2));
@@ -40,16 +47,30 @@ $(document).ready(function() {
     var index = cart.findIndex(function(cartItem) {
       return cartItem.price === price;
     });
-
-    cart.splice(index, 1);
-    item.remove();
-
-    total -= parseFloat(price);
+  
+    if (cart[index].quantity > 1) {
+      // If the quantity is greater than 1, decrease the quantity by 1
+      cart[index].quantity -= 1;
+      item.find(".quantity").text(" x " + cart[index].quantity);
+    } else {
+      // If the quantity is 1 or less, remove the item from the cart
+      cart.splice(index, 1);
+      item.remove();
+    }
+  
+    total = 0;
+    $.each(cart, function(index, item) {
+      total += parseFloat(item.price) * item.quantity;
+    });
     totalPrice.text(total.toFixed(2));
     
     localStorage.setItem("cart", JSON.stringify(cart));
   });
+
+  
 });
+
+
 
 $(document).ready(function() {
   displayProducts();
@@ -92,33 +113,41 @@ function addToCart() {
     var price = product.find("p").text();
     var image = product.find("img").attr("src");
 
-    // Add the product to the cart
-    cart.push({title: title, price: price, image: image});
+    // Sepete eklenen ürünü kontrol et
+    var index = cart.findIndex(function(item) {
+      return item.title === title && item.price === price;
+    });
 
-    // Save the updated cart to localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
+    if (index !== -1) {
+      // Ürün zaten listede var, adetini artır
+      cart[index].quantity += 1;
+      // Sepet listesindeki ilgili ürünün adetini güncelle
+      $(".cart-item:contains('" + title + "') .quantity").text(" x " + cart[index].quantity);
+    } else {
+      // Ürünü listeye ekle
+      cart.push({title: title, price: price, image: image, quantity: 1});
+      // Sepete eklenen ürünü göstermek için bir li öğesi oluşturun
+      var cartItem = $("<li>").addClass("cart-item");
+      var itemTitle = $("<h3>").text(title);
+      var itemPrice = $("<p>").text(price);
+      var itemImage = $("<img>").attr("src", image);
+      var itemQuantity = $("<span>").addClass("quantity").text(quantity);
+      var removeButton = $("<button>").addClass("remove-item").text("Sil");
+      
+      cartItem.append(itemTitle, itemPrice, itemImage, itemQuantity, removeButton);
 
-    // Sepete eklenen ürünü göstermek için bir li öğesi oluşturun
-    // Her ürün için bir li öğesi oluşturun ve sepete ekleyin
-    var cartItem = $("<li>").addClass("cart-item");
-    var itemTitle = $("<h3>").text(item.title);
-    var itemPrice = $("<p>").text(item.price);
-    var itemImage = $("<img>").attr("src", image);
-    var removeButton = $("<button>").addClass("remove-item").text("Sil");
-    
-    cartItem.append(itemTitle, itemPrice, itemImage, removeButton);
-    $("#cart-list").append(cartItem);
+      $("#cart-list").append(cartItem);
+    }
 
     // Toplam fiyatı hesapla
-    total += parseFloat(price);
+    total = 0;
+    $.each(cart, function(index, item) {
+      total += parseFloat(item.price) * item.quantity;
+    });
     $("#total-price").text(total.toFixed(2));
 
-    // Sepete eklenen ürünü cart dizisine ekle
-    cart.push({title: title, price: price});
-
-    // Sepet içeriğini localStorage'dan alın, yeni ürünü ekleyin ve güncellenmiş sepeti localStorage'a kaydedin
-    var cartInStorage = JSON.parse(localStorage.getItem("cart")) || [];
-    cartInStorage.push({title: title, price: price});
-    localStorage.setItem("cart", JSON.stringify(cartInStorage));
+    // Güncellenmiş sepeti localStorage'a kaydet
+    localStorage.setItem("cart", JSON.stringify(cart));
   });
 }
+
