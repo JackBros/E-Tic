@@ -14,7 +14,7 @@ $(document).ready(function() {
     var increaseButton = $("<button>").addClass("increase-item").text("Artır");
     var removeAllButton = $("<button>").addClass("remove-all-items").text("Hepsini Sil");
 
-    // When the increase button is clicked, increase the quantity by 1
+   1
     increaseButton.click(function() {
       item.quantity += 1;
       itemQuantity.text(" x " + item.quantity);
@@ -49,11 +49,11 @@ $(document).ready(function() {
     });
   
     if (cart[index].quantity > 1) {
-      // If the quantity is greater than 1, decrease the quantity by 1
+      
       cart[index].quantity -= 1;
       item.find(".quantity").text(" x " + cart[index].quantity);
     } else {
-      // If the quantity is 1 or less, remove the item from the cart
+     
       cart.splice(index, 1);
       item.remove();
     }
