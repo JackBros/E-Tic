@@ -14,7 +14,7 @@ $(document).ready(function() {
     var increaseButton = $("<button>").addClass("increase-item").text("Artır");
     var removeAllButton = $("<button>").addClass("remove-all-items").text("Hepsini Sil");
 
-   1
+   
     increaseButton.click(function() {
       item.quantity += 1;
       itemQuantity.text(" x " + item.quantity);
