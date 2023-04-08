@@ -131,7 +131,7 @@ function addToCart() {
       var itemTitle = $("<h3>").text(title);
       var itemPrice = $("<p>").text(price);
       var itemImage = $("<img>").attr("src", image);
-      var itemQuantity = $("<span>").addClass("quantity").text(quantity);
+      var itemQuantity = $("<span>").addClass("quantity").text(" x 1");
       var removeButton = $("<button>").addClass("remove-item").text("Sil");
       
       cartItem.append(itemTitle, itemPrice, itemImage, itemQuantity, removeButton);
