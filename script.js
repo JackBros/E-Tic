@@ -1,4 +1,19 @@
 $(document).ready(function() {
+  $('#show-cart').click(function() {
+    $('#cart').toggleClass('open');
+  });
+
+  $('.add-to-cart').click(function() {
+    // add item to cart
+    $('#feedback').addClass('show');
+    setTimeout(function() {
+      $('#feedback').removeClass('show');
+    }, 2000);
+  });
+});
+
+
+$(document).ready(function() {
   var cart = JSON.parse(localStorage.getItem("cart")) || [];
   var total = 0;
   var cartList = $("#cart-list");
@@ -87,7 +102,7 @@ function displayProducts() {
       $.each(data, function(index, product) {
         var li = $("<li>").addClass("product");
         var title = $("<h2>").text(product.title);
-        var price = $("<p>").text(product.price);
+        var price = $("<p>").text(product.price + " TL");
         var image = $("<img>").attr("src", product.image);
 
         var button = $("<button>").addClass("add-to-cart").text("Sepete Ekle");
@@ -105,17 +120,19 @@ function displayProducts() {
 function addToCart() {
   var cart = JSON.parse(localStorage.getItem("cart")) || [];
   var total = 0;
+  var cartList = $("#cart-list");
+  var totalPrice = $("#total-price");
 
   $(document).on("click", ".add-to-cart", function() {
     // Ürün bilgilerini al
     var product = $(this).closest(".product");
     var title = product.find("h2").text();
-    var price = product.find("p").text();
+    var price = parseFloat(product.find("p").text().replace(" TL", ""));
     var image = product.find("img").attr("src");
 
     // Sepete eklenen ürünü kontrol et
     var index = cart.findIndex(function(item) {
-      return item.title === title && item.price === price;
+      return item.title === title;
     });
 
     if (index !== -1) {
@@ -138,6 +155,13 @@ function addToCart() {
 
       $("#cart-list").append(cartItem);
     }
+
+    document.getElementById("feedback").classList.add("show");
+
+    setTimeout(function() {
+      document.getElementById("feedback").classList.remove("show");
+    }, 2000);
+    
 
     // Toplam fiyatı hesapla
     total = 0;
