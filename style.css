@@ -36,34 +36,31 @@
 
 
 .tablo {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-bottom: 20px;
-  }
-  
-  .tablo th,
-  .tablo td {
-    padding: 12px 10px;
-    text-align: left;
-    border-bottom: 2px solid #ddd;
-    
-  }
-  
-  .tablo th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-    
-  }
-  
-  .tablo tr:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .tablo tr:last-child td {
-    border-bottom: none;
-    
-  }
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tablo th,
+.tablo td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+
+.tablo th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.tablo tr:hover {
+  background-color: #f5f5f5;
+}
+
+.tablo tr:last-child td {
+  border-bottom: none;
+}
+
 
   #products-list {
     display: flex;
@@ -107,21 +104,27 @@
   #products-list .product img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 400px;
     margin-bottom: 10px;
     border-radius: 4px;
   }
   
   .cart-item {
-    max-height: 50px;
-    margin-right: 10px;
-    padding-bottom: 13%;
+    display: flex;
+    align-items: center;
+    padding: 12px 10px;
+    border-bottom: 2px solid #ddd;
   }
-
+  
   .cart-item img {
-    height: 40px;
+    height: 50px;
     margin-right: 10px;
-    }
+  }
+  
+  .cart-item h4,
+  .cart-item p {
+    margin: 20px;
+  }
   
   #products-list .product .add-to-cart {
     display: block;
@@ -170,7 +173,7 @@
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     transition: right 0.3s ease-in-out;
   }
-
+  
   #cart .panel-body {
     padding: 0;
   }
@@ -178,7 +181,7 @@
   #cart .panel-body ul {
     list-style: none;
     margin: 0;
-    padding: 0 10px;
+    padding: 0;
   }
   
   #cart .panel-body li {
@@ -198,11 +201,10 @@
     height: 50px;
     margin-right: 10px;
   }
-
+  
   #cart .total-price {
-    text-align: center;
-    margin: 10px 0;
-    font-size: 18px;
+    text-align: right;
+    padding: 10px;
     font-weight: bold;
   }
   
@@ -259,4 +261,4 @@
   .carousel-inner img {
     max-width: 100%;
     max-height: 400px;
-  }  
+  } 

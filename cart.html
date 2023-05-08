@@ -3,6 +3,17 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script>
+      removeButton.click(function() {
+  if (item.quantity > 1) {
+    item.quantity -= 1;
+    itemQuantity.text(" x " + item.quantity);
+    total -= parseFloat(item.price);
+    totalPrice.text(total.toFixed(2));
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
+});
+    </script>
     <title>My Shopping Cart</title>
     <link rel="stylesheet" href="/style.css">
     <style>

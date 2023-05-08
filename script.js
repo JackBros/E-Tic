@@ -51,6 +51,7 @@ $(document).ready(function() {
     
     total += parseFloat(item.price) * item.quantity;
   });
+  
 
   totalPrice.text(total.toFixed(2));
   
@@ -58,17 +59,17 @@ $(document).ready(function() {
   
   $(".remove-item").click(function() {
     var item = $(this).closest(".cart-item");
-    var price = item.find("p").text();
+    var price = parseFloat(item.find("p").text());
     var index = cart.findIndex(function(cartItem) {
       return cartItem.price === price;
     });
   
     if (cart[index].quantity > 1) {
-      
+      // Ürünün adeti 1'den büyük ise, adetini azalt
       cart[index].quantity -= 1;
       item.find(".quantity").text(" x " + cart[index].quantity);
     } else {
-     
+      // Ürünün adeti 1 ise, sepetteki ürünü sil
       cart.splice(index, 1);
       item.remove();
     }
@@ -78,9 +79,10 @@ $(document).ready(function() {
       total += parseFloat(item.price) * item.quantity;
     });
     totalPrice.text(total.toFixed(2));
-    
+  
     localStorage.setItem("cart", JSON.stringify(cart));
   });
+  
 
   
 });
@@ -107,7 +109,7 @@ function displayProducts() {
 
         var button = $("<button>").addClass("add-to-cart").text("Sepete Ekle");
 
-        li.append(title, price, image, button);
+        li.append(image, title, price, button);
         productsList.append(li);
       });
     },
