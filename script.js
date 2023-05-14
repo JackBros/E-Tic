@@ -21,14 +21,56 @@ $(document).ready(function() {
 
   $.each(cart, function(index, item) {
     var cartItem = $("<li>").addClass("cart-item");
-    var itemTitle = $("<h3>").text(item.title);
-    var itemPrice = $("<p>").text(item.price);
+    var itemTitle = $("<h3>")
+                .text(item.title)
+                .css("margin-right", "10px")
+                .css("background-color", "lightblue");
+    var itemPrice = $("<p>")
+                .text(item.price+"₺")
+                .css("margin-right", "10px")
+                .css("background-color", "lightblue");
     var itemImage = $("<img>").attr("src", item.image);
-    var itemQuantity = $("<span>").addClass("quantity").text(" x " + item.quantity);
-    var removeButton = $("<button>").addClass("remove-item").text("Azalt");
-    var increaseButton = $("<button>").addClass("increase-item").text("Artır");
-    var removeAllButton = $("<button>").addClass("remove-all-items").text("Hepsini Sil");
-
+    var itemQuantity = $("<span>")
+    .addClass("quantity")
+    .text("x " + item.quantity)
+    .css("background-color", "lightblue");
+    var removeButton = $("<button>")
+  .addClass("remove-item")
+  .text("-")
+  .css({
+    backgroundColor: "#E53935",
+    color: "#FFFFFF",
+    border: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginRight: "10px"
+  });
+var increaseButton = $("<button>")
+  .addClass("increase-item")
+  .text("+")
+  .css({
+    backgroundColor: "#43A047",
+    color: "#FFFFFF",
+    border: "none",
+    padding: "10px",
+    borderRadius: "5px",
+    cursor: "pointer",
+    marginRight: "10px"
+  });
+  var removeAllButton = $("<button>")
+  .addClass("remove-all-items")
+  .html('<span class="ui-icon ui-icon-trash"></span>')
+  .css({
+    backgroundColor: "transparent",
+    color: "#FFB900",
+    border: "none",
+    padding: "15px",
+    borderRadius: "50%",
+    cursor: "pointer",
+    fontSize: "24px",
+    boxShadow: "none"
+  });
    
     increaseButton.click(function() {
       item.quantity += 1;

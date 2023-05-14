@@ -149,7 +149,7 @@
     bottom: 20px;
     right: 20px;
     background-color: #4CAF50;
-    color: #fff;
+    color: #ffffff;
     padding: 10px;
     border-radius: 4px;
     opacity: 0;
@@ -262,3 +262,4 @@
     max-width: 100%;
     max-height: 400px;
   } 
+  
