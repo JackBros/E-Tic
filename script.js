@@ -1,4 +1,15 @@
 $(document).ready(function() {
+  $('.panel-collapse').on('show.bs.collapse', function() {
+    $('.ivy').show();
+  });
+
+  $('.panel-collapse').on('hide.bs.collapse', function() {
+    $('.ivy').hide();
+  });
+});
+
+
+$(document).ready(function() {
   $('#show-cart').click(function() {
     $('#cart').toggleClass('open');
   });

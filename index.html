@@ -13,6 +13,25 @@
         background-size: cover;
         background-attachment: fixed;
       }
+
+      .ivy {
+  position: absolute;
+  top: 125px;
+  right: 100px;
+  width: 50px;
+  height: 70px;
+  background-image: url("https://www.animatedimages.org/data/media/1051/animated-leaf-image-0258.jpg");
+  animation: swing 2s ease-in-out infinite;
+  transform-origin: bottom;
+  display: none;
+}
+
+@keyframes swing {
+  0% { transform: rotate(0); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(0); }
+}
+
     </style>
   </head>
   <body>
@@ -41,7 +60,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a role="button" data-toggle="collapse" href="#cart-collapse" aria-expanded="false" aria-controls="cart-collapse">
+          <a role="button" data-toggle="collapse" href="#cart-collapse" aria-expanded="false" aria-controls="cart-collapse" style="font-family: Fantasy;">
             Sepetim
             <span class="glyphicon glyphicon-menu-down pull-right"></span>
           </a>
@@ -54,7 +73,9 @@
           <a href="cart.html" class="btn btn-primary btn-block">Hepsini Görüntüle</a>
         </div>
       </div>
+      <div class="ivy"></div>
     </div>
+    
     
     
     <div class="feedback" id="feedback">Başarıyla eklendi!</div>
