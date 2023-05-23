@@ -7,15 +7,50 @@
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 
     <script>
-      removeButton.click(function() {
-  if (item.quantity > 1) {
-    item.quantity -= 1;
-    itemQuantity.text(" x " + item.quantity);
-    total -= parseFloat(item.price);
-    totalPrice.text(total.toFixed(2));
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
-});
+      function updateCart() {
+  var cartList = $("#cart-list");
+  cartList.empty();
+
+  var total = 0;
+
+  cart.forEach(function (item) {
+    var cartItem = $("<li>").addClass("cart-item");
+    var itemTitle = $("<h3>").text(item.title);
+    var itemPrice = $("<p>").text(item.price.toFixed(2) + " TL");
+    var itemQuantity = $("<p>").text(" x " + item.quantity);
+
+    var removeButton = $("<button>")
+      .addClass("remove-item")
+      .text("-")
+      .css({
+        backgroundColor: "#E53935",
+        color: "#FFFFFF",
+        border: "none",
+        padding: "10px",
+        borderRadius: "5px",
+        cursor: "pointer",
+      });
+
+    removeButton.click(function () {
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+        itemQuantity.text(" x " + item.quantity);
+        total -= parseFloat(item.price);
+        totalPrice.text(total.toFixed(2));
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+    });
+
+    cartItem.append(itemTitle, itemPrice, itemQuantity, removeButton);
+    cartList.append(cartItem);
+
+    var price = parseFloat(item.price.toFixed(2));
+    total += price * item.quantity;
+  });
+
+  totalPrice.text(total.toFixed(2) + "₺");
+}
+
     </script>
     <title>My Shopping Cart</title>
     <link rel="stylesheet" href="/style.css">

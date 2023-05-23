@@ -112,17 +112,15 @@ var increaseButton = $("<button>")
   
   $(".remove-item").click(function() {
     var item = $(this).closest(".cart-item");
-    var price = parseFloat(item.find("p").text());
+    var title = item.find("h3").text();
     var index = cart.findIndex(function(cartItem) {
-      return cartItem.price === price;
+      return cartItem.title === title;
     });
   
     if (cart[index].quantity > 1) {
-      // Ürünün adeti 1'den büyük ise, adetini azalt
       cart[index].quantity -= 1;
       item.find(".quantity").text(" x " + cart[index].quantity);
     } else {
-      // Ürünün adeti 1 ise, sepetteki ürünü sil
       cart.splice(index, 1);
       item.remove();
     }
@@ -135,6 +133,7 @@ var increaseButton = $("<button>")
   
     localStorage.setItem("cart", JSON.stringify(cart));
   });
+  
   
 
   
@@ -157,12 +156,17 @@ function displayProducts() {
       $.each(data, function(index, product) {
         var li = $("<li>").addClass("product");
         var title = $("<h2>").text(product.title);
+        var description = $("<p>").text(product.description.slice(0, 100) + "...");
         var price = $("<p>").text(product.price + " TL");
         var image = $("<img>").attr("src", product.image);
 
         var button = $("<button>").addClass("add-to-cart").text("Sepete Ekle");
 
-        li.append(image, title, price, button);
+        var contentDiv = $("<div>").addClass("product-content");
+        contentDiv.append(title, description, price);
+        
+        li.append(image, contentDiv);
+        li.append(button);
         productsList.append(li);
       });
     },

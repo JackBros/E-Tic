@@ -1,137 +1,206 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <title>My Shopping Cart</title>
-    <link rel="stylesheet" href="/style.css">
-    <style>
-       body {
-        background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <title>My Shopping Cart</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      background-image: url('https://www.w3schools.com/w3images/forestbridge.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+    }
+
+    .ivy {
+      position: absolute;
+      top: 125px;
+      right: 100px;
+      width: 50px;
+      height: 70px;
+      background-image: url("https://www.animatedimages.org/data/media/1051/animated-leaf-image-0258.jpg");
+      animation: swing 2s ease-in-out infinite;
+      transform-origin: bottom;
+      display: none;
+    }
+
+    @keyframes swing {
+      0% {
+        transform: rotate(0);
       }
 
-      .ivy {
-  position: absolute;
-  top: 125px;
-  right: 100px;
-  width: 50px;
-  height: 70px;
-  background-image: url("https://www.animatedimages.org/data/media/1051/animated-leaf-image-0258.jpg");
-  animation: swing 2s ease-in-out infinite;
-  transform-origin: bottom;
-  display: none;
-}
+      50% {
+        transform: rotate(10deg);
+      }
 
-@keyframes swing {
-  0% { transform: rotate(0); }
-  50% { transform: rotate(10deg); }
-  100% { transform: rotate(0); }
-}
+      100% {
+        transform: rotate(0);
+      }
+    }
 
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand">My Shopping Cart</a>
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cart-menu" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-    
-        <div class="collapse navbar-collapse" id="cart-menu">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
-          </ul>
-          
-        </div>
-      </div>
-    </nav>
-    
-    
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          <a role="button" data-toggle="collapse" href="#cart-collapse" aria-expanded="false" aria-controls="cart-collapse" style="font-family: Fantasy;">
-            Sepetim
-            <span class="glyphicon glyphicon-menu-down pull-right"></span>
-          </a>
-        </h3>
-      </div>
-      <div class="panel-collapse collapse" id="cart-collapse">
-        <div class="panel-body">
-          <ul id="cart-list"></ul>
-          <p class="total-price">Toplam: <span id="total-price">0.00</span> TL</p>
-          <a href="cart.html" class="btn btn-primary btn-block">Hepsini Görüntüle</a>
-        </div>
-      </div>
-      <div class="ivy"></div>
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .product-card h4 {
+      margin-bottom: 10px;
+    }
+
+    .product-card p {
+      margin-bottom: 10px;
+    }
+
+    .product-card .description {
+      margin-bottom: 10px;
+    }
+
+    @media (min-width: 768px) {
+      .product-card {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .product-card img {
+        width: 150px;
+        margin-right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">My Shopping Cart</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cart-menu"
+              aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
     </div>
-    
-    
-    
-    <div class="feedback" id="feedback">Başarıyla eklendi!</div>
 
-    <div id="carousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#carousel" data-slide-to="0" class="active"></li>
-        <li data-target="#carousel" data-slide-to="1"></li>
-        <li data-target="#carousel" data-slide-to="2"></li>
-        <li data-target="#carousel" data-slide-to="3"></li>
-        <li data-target="#carousel" data-slide-to="4"></li>
-      </ol>
-    
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner" role="listbox" id="slider">
-      </div>
-    
-      <!-- Controls -->
-      <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
+    <div class="collapse navbar-collapse" id="cart-menu">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="cart.html"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+      </ul>
+
     </div>
-    
-    <script>
-    $(document).ready(function() {
-      $.getJSON("https://fakestoreapi.com/products", function(products) {
-        // Create HTML for each slide
-        var slides = "";
-        for (var i = 0; i < 5; i++) {
-          var product = products[i];
-          slides += `
-            <div class="item${i == 0 ? ' active' : ''}">
-              <img src="${product.image}" alt="${product.title}">
-              <div class="carousel-caption">
-                <h3>${product.title}</h3>
-                <p>${product.description}</p>
-              </div>
-            </div>
-          `;
-        }
-    
-        // Add slides to the slider
-        $("#slider").html(slides);
-      });
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <a role="button" data-toggle="collapse" href="#cart-collapse" aria-expanded="false" aria-controls="cart-collapse"
+               style="font-family: Fantasy;">
+              Sepetim
+              <span class="glyphicon glyphicon-menu-down pull-right"></span>
+            </a>
+          </h3>
+        </div>
+        <div class="panel-collapse collapse" id="cart-collapse">
+          <div class="panel-body">
+            <ul id="cart-list"></ul>
+            <p class="total-price">Toplam: <span id="total-price">0.00</span> TL</p>
+            <a href="cart.html" class="btn btn-primary btn-block">Hepsini Görüntüle</a>
+          </div>
+        </div>
+        <div class="ivy"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="carousel">
+    <div class="col-md-8 col-md-offset-2">
+      <div id="carousel-slider" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
+          <li data-target="#carousel-slider" data-slide-to="1"></li>
+          <li data-target="#carousel-slider" data-slide-to="2"></li>
+          <li data-target="#carousel-slider" data-slide-to="3"></li>
+          <li data-target="#carousel-slider" data-slide-to="4"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox" id="slider">
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-slider" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-slider" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="products-list">
+  </div>
+</div>
+
+<div class="feedback" id="feedback">Başarıyla eklendi!</div>
+
+<script src="/script.js"></script>
+<script>
+  // Ürünleri API'den alarak slayt ve ürün listesini oluştur
+  $(document).ready(function() {
+    // Slayt için ürünleri API'den al
+    $.ajax({
+      url: "https://fakestoreapi.com/products",
+      method: "GET",
+      success: function(response) {
+        var slider = $("#slider");
+        var carouselIndicators = $(".carousel-indicators");
+        response.slice(0, 5).forEach(function(product, index) {
+          var itemClass = index === 0 ? "active" : "";
+          var indicatorClass = index === 0 ? "active" : "";
+          var carouselItem = $("<div>").addClass("item " + itemClass);
+          var carouselIndicator = $("<li>").attr({
+            "data-target": "#carousel-slider",
+            "data-slide-to": index
+          }).addClass(indicatorClass);
+          var productCard = $("<div>").addClass("product-card");
+          var image = $("<img>").attr("src", product.image).attr("alt", product.title);
+          var title = $("<h4>").text(product.title);
+          var description = $("<p>").text(product.description);
+          var price = $("<p>").text("$" + product.price.toFixed(2));
+          productCard.append(image, title, description, price);
+          carouselItem.append(productCard);
+          carouselIndicators.append(carouselIndicator);
+          slider.append(carouselItem);
+        });
+      }
     });
-    </script>
-    
-
-    <ul id="products-list"></ul>
-    
-    <script src="/script.js"></script>
-  </body>
+  });
+</script>
+</body>
 </html>
