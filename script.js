@@ -30,59 +30,59 @@ $(document).ready(function() {
   var cartList = $("#cart-list");
   var totalPrice = $("#total-price");
 
-  $.each(cart, function(index, item) {
+  $.each(cart, function(_, item) { // Changed "index" to "_" as it is unused
     var cartItem = $("<li>").addClass("cart-item");
     var itemTitle = $("<h3>")
-                .text(item.title)
-                .css("margin-right", "10px")
-                .css("background-color", "lightblue");
+      .text(item.title)
+      .css("margin-right", "10px")
+      .css("background-color", "lightblue");
     var itemPrice = $("<p>")
-                .text(item.price+"₺")
-                .css("margin-right", "10px")
-                .css("background-color", "lightblue");
+      .text(item.price + "₺")
+      .css("margin-right", "10px")
+      .css("background-color", "lightblue");
     var itemImage = $("<img>").attr("src", item.image);
     var itemQuantity = $("<span>")
-    .addClass("quantity")
-    .text("x " + item.quantity)
-    .css("background-color", "lightblue");
+      .addClass("quantity")
+      .text("x " + item.quantity)
+      .css("background-color", "lightblue");
     var removeButton = $("<button>")
-  .addClass("remove-item")
-  .text("-")
-  .css({
-    backgroundColor: "#E53935",
-    color: "#FFFFFF",
-    border: "none",
-    padding: "10px",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginRight: "10px"
-  });
-var increaseButton = $("<button>")
-  .addClass("increase-item")
-  .text("+")
-  .css({
-    backgroundColor: "#43A047",
-    color: "#FFFFFF",
-    border: "none",
-    padding: "10px",
-    borderRadius: "5px",
-    cursor: "pointer",
-    marginRight: "10px"
-  });
-  var removeAllButton = $("<button>")
-  .addClass("remove-all-items")
-  .html('<span class="ui-icon ui-icon-trash"></span>')
-  .css({
-    backgroundColor: "transparent",
-    color: "#FFB900",
-    border: "none",
-    padding: "15px",
-    borderRadius: "50%",
-    cursor: "pointer",
-    fontSize: "24px",
-    boxShadow: "none"
-  });
-   
+      .addClass("remove-item")
+      .text("-")
+      .css({
+        backgroundColor: "#E53935",
+        color: "#FFFFFF",
+        border: "none",
+        padding: "10px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginRight: "10px"
+      });
+    var increaseButton = $("<button>")
+      .addClass("increase-item")
+      .text("+")
+      .css({
+        backgroundColor: "#43A047",
+        color: "#FFFFFF",
+        border: "none",
+        padding: "10px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        marginRight: "10px"
+      });
+    var removeAllButton = $("<button>")
+      .addClass("remove-all-items")
+      .html('<span class="ui-icon ui-icon-trash"></span>')
+      .css({
+        backgroundColor: "transparent",
+        color: "#FFB900",
+        border: "none",
+        padding: "15px",
+        borderRadius: "50%",
+        cursor: "pointer",
+        fontSize: "24px",
+        boxShadow: "none"
+      });
+
     increaseButton.click(function() {
       item.quantity += 1;
       itemQuantity.text(" x " + item.quantity);
@@ -90,33 +90,32 @@ var increaseButton = $("<button>")
       totalPrice.text(total.toFixed(2));
       localStorage.setItem("cart", JSON.stringify(cart));
     });
-    
+
     removeAllButton.click(function() {
       total -= parseFloat(item.price) * item.quantity;
-      cart.splice(index, 1);
+      cart.splice(_, 1); // Changed "index" to "_"
       cartItem.remove();
       totalPrice.text(total.toFixed(2));
       localStorage.setItem("cart", JSON.stringify(cart));
     });
-    
+
     cartItem.append(itemImage, itemTitle, itemQuantity, itemPrice, removeButton, increaseButton, removeAllButton);
     cartList.append(cartItem);
-    
+
     total += parseFloat(item.price) * item.quantity;
   });
-  
 
   totalPrice.text(total.toFixed(2));
-  
+
   localStorage.setItem("cart", JSON.stringify(cart));
-  
+
   $(".remove-item").click(function() {
     var item = $(this).closest(".cart-item");
     var title = item.find("h3").text();
     var index = cart.findIndex(function(cartItem) {
       return cartItem.title === title;
     });
-  
+
     if (cart[index].quantity > 1) {
       cart[index].quantity -= 1;
       item.find(".quantity").text(" x " + cart[index].quantity);
@@ -124,20 +123,17 @@ var increaseButton = $("<button>")
       cart.splice(index, 1);
       item.remove();
     }
-  
+
     total = 0;
-    $.each(cart, function(index, item) {
+    $.each(cart, function(_, item) { // Changed "index" to "_" as it is unused
       total += parseFloat(item.price) * item.quantity;
     });
     totalPrice.text(total.toFixed(2));
-  
+
     localStorage.setItem("cart", JSON.stringify(cart));
   });
-  
-  
-
-  
 });
+
 
 
 
@@ -212,22 +208,22 @@ function addToCart() {
       
       cartItem.append(itemTitle, itemPrice, itemImage, itemQuantity, removeButton);
 
-      $("#cart-list").append(cartItem);
+      cartList.append(cartItem);
     }
 
-    document.getElementById("feedback").classList.add("show");
+    $("#feedback").addClass("show");
 
     setTimeout(function() {
-      document.getElementById("feedback").classList.remove("show");
+      $("#feedback").removeClass("show");
     }, 2000);
     
 
     // Toplam fiyatı hesapla
     total = 0;
-    $.each(cart, function(index, item) {
+    $.each(cart, function(_, item) {
       total += parseFloat(item.price) * item.quantity;
     });
-    $("#total-price").text(total.toFixed(2));
+    totalPrice.text(total.toFixed(2));
 
     // Güncellenmiş sepeti localStorage'a kaydet
     localStorage.setItem("cart", JSON.stringify(cart));
