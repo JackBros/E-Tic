@@ -153,7 +153,7 @@ function displayProducts() {
         var li = $("<li>").addClass("product");
         var title = $("<h2>").text(product.title);
         var description = $("<p>").text(product.description.slice(0, 100) + "...");
-        var price = $("<p>").text(product.price + " TL");
+        var price = $("<a>").text(product.price + " TL");
         var image = $("<img>").attr("src", product.image);
 
         var button = $("<button>").addClass("add-to-cart").text("Sepete Ekle");
@@ -182,7 +182,7 @@ function addToCart() {
     // Ürün bilgilerini al
     var product = $(this).closest(".product");
     var title = product.find("h2").text();
-    var price = parseFloat(product.find("p").text().replace(" TL", ""));
+    var price = parseFloat(product.find("a").text().replace(" TL", ""));
     var image = product.find("img").attr("src");
 
     // Sepete eklenen ürünü kontrol et
