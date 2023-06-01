@@ -1,12 +1,12 @@
-$(document).ready(function() {
-  $('.panel-collapse').on('show.bs.collapse', function() {
-    $('.ivy').show();
-  });
+// $(document).ready(function() {
+//   $('.panel-collapse').on('show.bs.collapse', function() {
+//     $('.ivy').show();
+//   });
 
-  $('.panel-collapse').on('hide.bs.collapse', function() {
-    $('.ivy').hide();
-  });
-});
+//   $('.panel-collapse').on('hide.bs.collapse', function() {
+//     $('.ivy').hide();
+//   });
+// });
 
 
 $(document).ready(function() {
