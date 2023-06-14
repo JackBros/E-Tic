@@ -1,14 +1,3 @@
-// $(document).ready(function() {
-//   $('.panel-collapse').on('show.bs.collapse', function() {
-//     $('.ivy').show();
-//   });
-
-//   $('.panel-collapse').on('hide.bs.collapse', function() {
-//     $('.ivy').hide();
-//   });
-// });
-
-
 $(document).ready(function() {
   $('#show-cart').click(function() {
     $('#cart').toggleClass('open');
@@ -23,14 +12,13 @@ $(document).ready(function() {
   });
 });
 
-
 $(document).ready(function() {
   var cart = JSON.parse(localStorage.getItem("cart")) || [];
   var total = 0;
   var cartList = $("#cart-list");
   var totalPrice = $("#total-price");
 
-  $.each(cart, function(_, item) { // Changed "index" to "_" as it is unused
+  $.each(cart, function(_, item) {
     var cartItem = $("<li>").addClass("cart-item");
     var itemTitle = $("<h3>")
       .text(item.title)
@@ -93,7 +81,7 @@ $(document).ready(function() {
 
     removeAllButton.click(function() {
       total -= parseFloat(item.price) * item.quantity;
-      cart.splice(_, 1); // Changed "index" to "_"
+      cart.splice(_, 1);
       cartItem.remove();
       totalPrice.text(total.toFixed(2));
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -109,7 +97,7 @@ $(document).ready(function() {
 
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  $(".remove-item").click(function() {
+  $(document).on("click", ".remove-item", function() {
     var item = $(this).closest(".cart-item");
     var title = item.find("h3").text();
     var index = cart.findIndex(function(cartItem) {
@@ -125,7 +113,7 @@ $(document).ready(function() {
     }
 
     total = 0;
-    $.each(cart, function(_, item) { // Changed "index" to "_" as it is unused
+    $.each(cart, function(_, item) {
       total += parseFloat(item.price) * item.quantity;
     });
     totalPrice.text(total.toFixed(2));
@@ -133,9 +121,6 @@ $(document).ready(function() {
     localStorage.setItem("cart", JSON.stringify(cart));
   });
 });
-
-
-
 
 $(document).ready(function() {
   displayProducts();
@@ -160,7 +145,7 @@ function displayProducts() {
 
         var contentDiv = $("<div>").addClass("product-content");
         contentDiv.append(title, description, price);
-        
+
         li.append(image, contentDiv);
         li.append(button);
         productsList.append(li);
@@ -179,33 +164,27 @@ function addToCart() {
   var totalPrice = $("#total-price");
 
   $(document).on("click", ".add-to-cart", function() {
-    // Ürün bilgilerini al
     var product = $(this).closest(".product");
     var title = product.find("h2").text();
     var price = parseFloat(product.find("a").text().replace(" TL", ""));
     var image = product.find("img").attr("src");
 
-    // Sepete eklenen ürünü kontrol et
     var index = cart.findIndex(function(item) {
       return item.title === title;
     });
 
     if (index !== -1) {
-      // Ürün zaten listede var, adetini artır
       cart[index].quantity += 1;
-      // Sepet listesindeki ilgili ürünün adetini güncelle
       $(".cart-item:contains('" + title + "') .quantity").text(" x " + cart[index].quantity);
     } else {
-      // Ürünü listeye ekle
       cart.push({title: title, price: price, image: image, quantity: 1});
-      // Sepete eklenen ürünü göstermek için bir li öğesi oluşturun
       var cartItem = $("<li>").addClass("cart-item");
       var itemTitle = $("<h3>").text(title);
       var itemPrice = $("<p>").text(price);
       var itemImage = $("<img>").attr("src", image);
       var itemQuantity = $("<span>").addClass("quantity").text(" x 1");
       var removeButton = $("<button>").addClass("remove-item").text("Sil");
-      
+
       cartItem.append(itemTitle, itemPrice, itemImage, itemQuantity, removeButton);
 
       cartList.append(cartItem);
@@ -216,16 +195,13 @@ function addToCart() {
     setTimeout(function() {
       $("#feedback").removeClass("show");
     }, 2000);
-    
 
-    // Toplam fiyatı hesapla
     total = 0;
     $.each(cart, function(_, item) {
       total += parseFloat(item.price) * item.quantity;
     });
     totalPrice.text(total.toFixed(2));
 
-    // Güncellenmiş sepeti localStorage'a kaydet
     localStorage.setItem("cart", JSON.stringify(cart));
   });
 }
